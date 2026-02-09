@@ -1,0 +1,5 @@
+{
+  "name": "The Polestar School - Marksheet Management System",
+  "description": "A comprehensive React-based marksheet generation software designed for Bangladeshi schools, featuring student management, subject configuration, and PDF/Excel export capabilities.",
+  "requestFramePermissions": []
+}
