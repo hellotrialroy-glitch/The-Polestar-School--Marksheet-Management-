@@ -16,7 +16,7 @@ import {
   Printer
 } from 'lucide-react';
 import { ClassLevel, Student, Subject, MarkRecord } from './types';
-import { INITIAL_SUBJECTS } from './constants';
+import { INITIAL_SUBJECTS, SCHOOL_LOGO_DATA_URL } from './constants';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -65,12 +65,12 @@ const App: React.FC = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col no-print">
         <div className="p-6 flex items-center gap-3 border-b border-slate-800">
-          <div className="bg-white p-2 rounded-lg">
-            <School className="text-slate-900 w-6 h-6" />
+          <div className="bg-white p-1 rounded-full overflow-hidden w-10 h-10 flex items-center justify-center">
+             <img src={SCHOOL_LOGO_DATA_URL} alt="Logo" className="w-full h-full object-contain" />
           </div>
-          <div>
-            <h1 className="text-xs font-bold leading-tight uppercase tracking-widest text-slate-400">System</h1>
-            <p className="font-semibold text-sm truncate w-32">THE POLESTAR SCHOOL</p>
+          <div className="min-w-0">
+            <h1 className="text-[10px] font-bold leading-tight uppercase tracking-widest text-slate-400">System</h1>
+            <p className="font-semibold text-xs truncate w-32">THE POLESTAR SCHOOL</p>
           </div>
         </div>
 

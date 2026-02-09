@@ -1,8 +1,9 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Search, Printer, FileDown, Eye, Download } from 'lucide-react';
 import { Student, Subject, MarkRecord, ClassLevel } from '../types';
 import { getGradePoint, calculateGPA, getFinalGrade } from '../utils/calculations';
+import { SCHOOL_LOGO_DATA_URL } from '../constants';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
@@ -50,28 +51,35 @@ const ReportGenerator: React.FC<ReportGeneratorProps> = ({ students, subjects, m
     const { detailedMarks, gpa, finalGrade } = getStudentMarksheetData(student);
     const doc = new jsPDF();
 
+    // School Logo
+    try {
+      doc.addImage(SCHOOL_LOGO_DATA_URL, 'PNG', 85, 10, 40, 40);
+    } catch (e) {
+      console.error("Logo error:", e);
+    }
+
     // School Header
     doc.setFontSize(22);
-    doc.setTextColor(0, 0, 128);
-    doc.text("THE POLESTAR SCHOOL", 105, 20, { align: "center" });
+    doc.setTextColor(110, 114, 52); // Match logo gold-ish color
+    doc.text("THE POLESTAR SCHOOL", 105, 55, { align: "center" });
     doc.setFontSize(10);
     doc.setTextColor(100);
-    doc.text("Academic Transcript / Marksheet", 105, 28, { align: "center" });
+    doc.text("Academic Transcript / Marksheet", 105, 62, { align: "center" });
     
     // Student Info
     doc.setFontSize(12);
     doc.setTextColor(0);
-    doc.text(`Name: ${student.name}`, 20, 45);
-    doc.text(`Roll: ${student.roll}`, 20, 52);
-    doc.text(`Class: ${student.classLevel}`, 140, 45);
-    doc.text(`Section: ${student.section}`, 140, 52);
+    doc.text(`Name: ${student.name}`, 20, 75);
+    doc.text(`Roll: ${student.roll}`, 20, 82);
+    doc.text(`Class: ${student.classLevel}`, 140, 75);
+    doc.text(`Section: ${student.section}`, 140, 82);
 
     // Table
     autoTable(doc, {
-      startY: 65,
+      startY: 95,
       head: [['Subject Name', 'Full Marks', 'Obtained', 'Grade', 'Point']],
       body: detailedMarks.map(dm => [dm.subject, dm.fullMarks, dm.obtained, dm.grade, dm.point.toFixed(2)]),
-      headStyles: { fillStyle: 'DF', fillColor: [0, 51, 102] },
+      headStyles: { fillStyle: 'DF', fillColor: [110, 114, 52] }, // Theme from logo
     });
 
     // Summary
@@ -228,9 +236,11 @@ const ReportGenerator: React.FC<ReportGeneratorProps> = ({ students, subjects, m
               {/* Header */}
               <div className="text-center space-y-2 mb-12 border-b-2 border-slate-900 pb-8">
                 <div className="flex justify-center mb-4">
-                  <div className="w-20 h-20 bg-blue-900 rounded-full flex items-center justify-center text-white text-3xl font-black">P</div>
+                  <div className="w-24 h-24 overflow-hidden rounded-full border-4 border-slate-100 shadow-sm flex items-center justify-center">
+                    <img src={SCHOOL_LOGO_DATA_URL} alt="School Logo" className="w-full h-full object-contain" />
+                  </div>
                 </div>
-                <h1 className="text-4xl font-black text-blue-900 tracking-tight">THE POLESTAR SCHOOL</h1>
+                <h1 className="text-4xl font-black text-slate-900 tracking-tight">THE POLESTAR SCHOOL</h1>
                 <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Academic Transcript - Annual Examination</p>
               </div>
 
